@@ -1,8 +1,10 @@
 import React from 'react'
 
-function AllRecipes(){
+function AllRecipes({recipe}){
     return (
-       <div></div> 
+       <div className="container">
+           <h1>{recipe.name}</h1>
+       </div> 
     )
 }
 
