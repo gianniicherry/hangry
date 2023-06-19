@@ -23,8 +23,10 @@ ActiveRecord::Schema.define(version: 2023_06_14_214055) do
   end
 
   create_table "reviews", force: :cascade do |t|
+    t.integer "rating"
     t.string "difficulty"
     t.string "description"
+    t.integer "recipe_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

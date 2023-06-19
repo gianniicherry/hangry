@@ -9,8 +9,9 @@ class ReviewsController < ApplicationController
         render json: review
     end
 
-    def create 
-        review = Review.create(review_params)
+    def create
+        recipe = find_recipe 
+        review = recipe.reviews.create(review_params)
         render json: review, status: :created
     end
 
@@ -28,7 +29,11 @@ class ReviewsController < ApplicationController
 
     private
 
+    def find_recipe
+        Recipe.find(params[:recipe_id])
+    end
+
     def review_params
-        params.permit(:difficulty, :description)
+        params.permit(:rating, :difficulty, :description)
     end
 end
