@@ -2,12 +2,13 @@ import React, {useState, useEffect} from 'react';
 import { useParams } from 'react-router-dom'
 import ReviewForm from './ReviewForm';
 import Reviews from './Reviews'
+import { RecipeContainer, RecipeTitle, RecipeCookTime, RecipeIngredients, RecipeInstructions } from '../styles/recipePage.styles';
 
 const RecipePage = () => {
   // Retrieve the recipe ID from the URL parameter
   const { id } = useParams();
   const [recipe, setRecipe] = useState(null);
-  const [reviews, setReviews] = useState([])
+  
 
   useEffect(() => {
     // Fetch the recipe data using the recipe ID
@@ -17,22 +18,26 @@ const RecipePage = () => {
       .catch((error) => console.error(error));
   }, [id]);
 
-
   if (!recipe) {
     return <div>Loading...</div>;
   }
+  
+
   return (
-    <div>
-      <h2>{recipe.name}</h2>
-      <p>{recipe.ingredients}</p>
+    <RecipeContainer>
+      <RecipeTitle>{recipe.name}</RecipeTitle>
+      <RecipeCookTime>{recipe.cook_time} Minutes</RecipeCookTime>
+      <RecipeIngredients>{recipe.ingredients}</RecipeIngredients>
+      <br/>
+      <RecipeInstructions>{recipe.instructions}</RecipeInstructions>
       <br/>
       <div>
-      <ReviewForm recipeId={id} />
+      <ReviewForm recipeId={id}/>
       </div>
       <br/>{recipe.reviews.map((review)=>(
-          <Reviews key={review.id} reviews={review}/>
+          <Reviews key={review.id} review={review}/>
       ))}
-    </div>
+    </RecipeContainer>
   );
 };
 

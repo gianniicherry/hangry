@@ -1,5 +1,5 @@
 class ReviewSerializer < ActiveModel::Serializer
-  attributes :difficulty, :description
+  attributes :rating, :difficulty, :description
 
   belongs_to :recipe
 end
