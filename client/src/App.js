@@ -5,6 +5,7 @@ import Recipes from "./components/Recipes";
 import RecipeForm from './components/RecipeForm';
 import RecipePage from './components/RecipePage';
 import Navbar from './Navbar';
+import Auth from "./components/Auth";
 import {Route, Routes} from "react-router-dom"
 
 
@@ -31,6 +32,7 @@ function App() {
     <div className="container">
       <Routes>
           <Route path="/" element={<Home recipes={recipes} easyRecipes={easyRecipes}/>}/>
+          <Route path="/auth" element={<Auth />}/>
           <Route path="/recipes" element={<Recipes recipes={recipes}/>}/>
           <Route path="/recipeform" element={<RecipeForm onAddRecipe={handleAddRecipe}/>}/>
           <Route path="/recipe/:id" element={<RecipePage recipe={recipes}/>}/>

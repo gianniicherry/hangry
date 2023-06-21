@@ -4,6 +4,7 @@ export default function Navbar(){
     return ( <nav className="nav">
     <Link to="/" className="site-title">Hangry.</Link>
     <ul>
+        <CustomLink to="/auth">Log In</CustomLink>
         <CustomLink to="/recipes">Recipes</CustomLink>
         <CustomLink to="/recipeform">Add Recipe</CustomLink>
     </ul>
