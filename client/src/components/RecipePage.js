@@ -4,7 +4,7 @@ import ReviewForm from './ReviewForm';
 import Reviews from './Reviews'
 import { RecipeContainer, RecipeTitle, RecipeCookTime, RecipeIngredients, RecipeInstructions } from '../styles/recipePage.styles';
 
-const RecipePage = () => {
+const RecipePage = ({user}) => {
   // Retrieve the recipe ID from the URL parameter
   const { id } = useParams();
   const [recipe, setRecipe] = useState(null);
@@ -32,7 +32,7 @@ const RecipePage = () => {
       <RecipeInstructions>{recipe.instructions}</RecipeInstructions>
       <br/>
       <div>
-      <ReviewForm recipeId={id}/>
+      <ReviewForm recipeId={id} user={user}/>
       </div>
       <br/>{recipe.reviews.map((review)=>(
           <Reviews key={review.id} review={review}/>

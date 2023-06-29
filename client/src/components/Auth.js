@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import {PageContainer, FormContainer,Logo, Label, Input, SubmitButton} from "../styles/auth.styles"
 
-function Auth({setCurrentUser}){
+function Auth({onLogin}){
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [login, setLogin] = useState('')
@@ -13,14 +13,14 @@ function Auth({setCurrentUser}){
             username,
             password
         }
-        fetch("/users",{
+        fetch("/login",{
             method: "POST",
             headers:{"Content-Type":"application/json"},
             body: JSON.stringify(user)
         })
         .then(res => {
             if(res.ok){
-                res.json().then(setCurrentUser)
+                res.json().then((user) => onLogin(user))
             } else {
                 res.json().then(e => setErrors(Object.entries(e.error).flat()))
             }

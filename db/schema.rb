@@ -27,6 +27,7 @@ ActiveRecord::Schema.define(version: 2023_06_14_214055) do
     t.string "difficulty"
     t.string "description"
     t.integer "recipe_id"
+    t.integer "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

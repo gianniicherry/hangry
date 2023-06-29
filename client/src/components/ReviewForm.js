@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import {FormContainer, Label, Input, StyledButton} from '../styles/reviewForm.styles'
 import StarRating from './StarRating'
 
-function ReviewForm({recipeId, onAddReview}){
+function ReviewForm({recipeId, onAddReview , user}){
 
     const [rating, setRating] = useState(0)
     const [difficulty, setDifficulty] = useState('')
@@ -14,7 +14,8 @@ function ReviewForm({recipeId, onAddReview}){
             rating: rating,
             difficulty: difficulty,
             description: description,
-            recipe_id: recipeId
+            recipe_id: recipeId, 
+            user_id: user.id
         }
         fetch(`http://localhost:4001/recipes/${recipeId}/reviews`,{
             method: "POST",

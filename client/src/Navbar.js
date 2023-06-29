@@ -1,12 +1,14 @@
 import { Link, useMatch, useResolvedPath } from "react-router-dom"
 
-export default function Navbar(){
+export default function Navbar({isLoggedIn}){
+    
     return ( <nav className="nav">
     <Link to="/" className="site-title">Hangry.</Link>
     <ul>
-        <CustomLink to="/auth">Log In</CustomLink>
+        {isLoggedIn ? <CustomLink to="signout">Logout</CustomLink> : <CustomLink to="/auth">Log In</CustomLink>}
         <CustomLink to="/recipes">Recipes</CustomLink>
         <CustomLink to="/recipeform">Add Recipe</CustomLink>
+        {isLoggedIn ? <CustomLink to="/reviewedrecipes">My Recipes</CustomLink> : null}
     </ul>
 </nav>
     )
