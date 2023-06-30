@@ -6,8 +6,9 @@ import RecipeForm from './components/RecipeForm';
 import RecipePage from './components/RecipePage';
 import Navbar from './Navbar';
 import Auth from "./components/Auth";
-import SignOut from "./components/SignOut"
-import {Route, Routes} from "react-router-dom"
+import SignOut from "./components/SignOut";
+import ReviewedRecipes from "./components/ReviewedRecipes";
+import {Route, Routes} from "react-router-dom";
 
 
 function App() {
@@ -37,9 +38,6 @@ function App() {
     setCurrentUser(user);
     setIsLoggedIn(true)
   }
-  
-  
-
 
   function handleAddRecipe(newRecipe){
     setRecipes([...recipes, newRecipe])
@@ -50,6 +48,8 @@ function App() {
       method: "DELETE",
     }).then(() => setIsLoggedIn(false));
   }
+
+   console.log(currentUser)
   
   return (
   <>
@@ -62,6 +62,7 @@ function App() {
           <Route path="/recipes" element={<Recipes recipes={recipes}/>}/>
           <Route path="/recipeform" element={<RecipeForm onAddRecipe={handleAddRecipe}/>}/>
           <Route path="/recipe/:id" element={<RecipePage recipe={recipes} user={currentUser}/>}/>
+          <Route path="/reviewedrecipes" element={<ReviewedRecipes user={currentUser}/>}/>
       </Routes>
     </div>
   </>

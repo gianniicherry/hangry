@@ -1,9 +1,16 @@
 class RecipesController < ApplicationController
 
     def index
-        recipes = Recipe.all 
-        render json: recipes 
-    end
+        if current_user
+          reviewed_recipes = current_user.recipes
+          render json: {
+            reviewed_recipes: reviewed_recipes
+          }
+        else
+          recipes = Recipe.all 
+          render json: recipes
+        end
+      end
 
     def show
         recipe = Recipe.find_by(id: params[:id])
@@ -27,5 +34,13 @@ class RecipesController < ApplicationController
 
     def recipe_params
         params.permit(:name,:img, :cook_time, :ingredients, :instructions)
+    end
+
+    def current_user
+        User.find_by(id: params[:user_id])
+    end
+
+    def logged_in?
+        !!session[:user_id]
     end
 end
