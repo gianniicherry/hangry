@@ -6,7 +6,7 @@ function ReviewedRecipes({user}){
     const[recipes, setRecipes] = useState([])
 
     useEffect(()=>{
-        fetch(`http://localhost:4001/users/${user.id}/recipes`)
+        fetch(`/users/${user.id}/recipes`)
         .then(r => r.json())
         .then(data => setRecipes(data.reviewed_recipes))
     },[])

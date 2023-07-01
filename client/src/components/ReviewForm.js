@@ -17,7 +17,7 @@ function ReviewForm({recipeId, onAddReview , user}){
             recipe_id: recipeId, 
             user_id: user.id
         }
-        fetch(`http://localhost:4001/recipes/${recipeId}/reviews`,{
+        fetch(`/recipes/${recipeId}/reviews`,{
             method: "POST",
             headers: {"Content-Type" : "application/json",
         },

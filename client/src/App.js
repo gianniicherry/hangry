@@ -19,7 +19,7 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
 
   useEffect(()=>{
-      fetch('http://localhost:4001/recipes')
+      fetch('/recipes')
       .then(r => r.json())
       .then(data => {
           setRecipes(data)
