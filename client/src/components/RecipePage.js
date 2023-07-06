@@ -1,11 +1,12 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import { useParams } from 'react-router-dom'
 import ReviewForm from './ReviewForm';
 import Reviews from './Reviews'
 import { RecipeContainer, RecipeTitle, RecipeCookTime, RecipeIngredients, RecipeInstructions } from '../styles/recipePage.styles';
 import {FormContainer, Label, Input, StyledButton} from '../styles/reviewForm.styles';
+import { UserContext } from "../App"
 
-const RecipePage = ({user}) => {
+const RecipePage = () => {
   // Retrieve the recipe ID from the URL parameter
   const { id } = useParams();
   const [recipe, setRecipe] = useState(null);
@@ -13,7 +14,8 @@ const RecipePage = ({user}) => {
   const [updatedCookTime, setUpdatedCookTime] = useState('');
   const [updatedIngredients, setUpdatedIngredients] = useState('');
   const [updatedInstructions, setUpdatedInstructions] = useState('');
-
+  const user = useContext(UserContext)
+  
   useEffect(() => {
     // Fetch the recipe data using the recipe ID
     fetch(`/recipes/${id}`)
@@ -52,6 +54,7 @@ const RecipePage = ({user}) => {
       setEditForm(false)
     })
   }
+  
   
 
   return (

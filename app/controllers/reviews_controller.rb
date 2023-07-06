@@ -1,8 +1,8 @@
 class ReviewsController < ApplicationController
-    skip_before_action :authorize, only: :index, :show
+    skip_before_action :authorize, only: [:index, :show]
     def index
         reviews = Review.all
-        render json: reviews
+        render json: reviews, include: ["users"]
     end
 
     def show 

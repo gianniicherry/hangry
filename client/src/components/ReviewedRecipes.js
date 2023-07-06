@@ -1,19 +1,13 @@
-import React, {useState, useEffect} from "react"
+import React, {useContext} from "react"
 import ReviewedRecipeCard from "./ReviewedRecipeCard"
+import {UserContext} from "../App"
 
-function ReviewedRecipes({user}){
-    
-    const[recipes, setRecipes] = useState([])
-
-    useEffect(()=>{
-        fetch(`/users/${user.id}/recipes`)
-        .then(r => r.json())
-        .then(data => setRecipes(data.reviewed_recipes))
-    },[])
+function ReviewedRecipes(){
+    const user = useContext(UserContext)
 
     return (
         <div>
-            {recipes.map((recipe) => (<ReviewedRecipeCard key={recipe.id} recipe={recipe}/>))}
+            {user.recipes.map((recipe) => (<ReviewedRecipeCard key={recipe.id} recipe={recipe}/>))}
         </div>
     )
 }
