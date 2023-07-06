@@ -1,12 +1,14 @@
-import React, {useState} from 'react'
+import React, {useState, useContext} from 'react'
 import {FormContainer, Label, Input, StyledButton} from '../styles/reviewForm.styles'
 import StarRating from './StarRating'
+import {UserContext} from '../App'
 
-function ReviewForm({recipeId, onAddReview , user}){
+function ReviewForm({recipeId, onAddReview}){
 
     const [rating, setRating] = useState(0)
     const [difficulty, setDifficulty] = useState('')
     const [description, setDescription] = useState('')
+    const user = useContext(UserContext)
 
     function handleSubmit(e){
         e.preventDefault()
@@ -24,7 +26,7 @@ function ReviewForm({recipeId, onAddReview , user}){
             body: JSON.stringify(reviewData)
         })
             .then(r => r.json())
-            .then((newReview) => console.log(newReview))
+            .then((newReview) => onAddReview(newReview))
     }
 
 

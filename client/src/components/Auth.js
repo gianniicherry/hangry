@@ -7,6 +7,7 @@ function Auth({onLogin}){
     const [password, setPassword] = useState('')
     const [login, setLogin] = useState('')
     const [errors, setErrors] = useState([])
+    const [isSigningUp, setIsSigningUp] = useState(false)
 
     function onSubmit(e){
         e.preventDefault()
@@ -14,7 +15,8 @@ function Auth({onLogin}){
             username,
             password
         }
-        fetch("/login",{
+        const endpoint = isSigningUp ? "/users" : "/login";
+        fetch(endpoint,{
             method: "POST",
             headers:{"Content-Type":"application/json"},
             body: JSON.stringify(user)
@@ -46,8 +48,8 @@ function Auth({onLogin}){
                 <br/>
                 <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
             </Label>
-            <SubmitButton type="submit" value="Sign Up" />
-            <SubmitButton type="submit" value="Login" onClick={() => setLogin(true)} />
+            <SubmitButton type="submit" value="Sign Up" onClick={() => setIsSigningUp(true)}/>
+            <SubmitButton type="submit" value="Login" onClick={() => setIsSigningUp(false)} />
         </FormContainer>
     </PageContainer>
     </div>

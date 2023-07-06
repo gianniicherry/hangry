@@ -55,6 +55,9 @@ const RecipePage = () => {
     })
   }
   
+  function handleAddReview(newReview){
+    recipe.reviews.push(newReview)
+  }
   
 
   return (
@@ -104,7 +107,7 @@ const RecipePage = () => {
       </>)}
       <StyledButton onClick={handleEdit}>{editForm ? "Cancel" : "Edit"}</StyledButton>
       <div>
-      <ReviewForm recipeId={id} user={user}/>
+      <ReviewForm recipeId={id} onAddReview={handleAddReview}/>
       </div>
       <br/>{recipe.reviews.map((review)=>(
           <Reviews key={review.id} review={review} user={user}/>
