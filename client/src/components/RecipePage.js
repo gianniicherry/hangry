@@ -104,7 +104,7 @@ const RecipePage = ({user}) => {
       <ReviewForm recipeId={id} user={user}/>
       </div>
       <br/>{recipe.reviews.map((review)=>(
-          <Reviews key={review.id} review={review}/>
+          <Reviews key={review.id} review={review} user={user}/>
       ))}
     </RecipeContainer>
   );

@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
     wrap_parameters format: []
     rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity
+    
 
     def show 
         current_user = User.find_by(id: session[:user_id])

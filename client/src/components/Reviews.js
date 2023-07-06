@@ -1,7 +1,7 @@
 import React from 'react'
 import {ReviewContainer, RatingContainer, Star, RatingValue, Difficulty, Description} from "../styles/reviews.styles"
 
-function Reviews({review}){
+function Reviews({review, user}){
     
     
     const renderRatingStars = (rating) => {

@@ -37,6 +37,7 @@ function App() {
   function handleLogin(user) {
     setCurrentUser(user);
     setIsLoggedIn(true)
+    
   }
 
   function handleAddRecipe(newRecipe){
@@ -47,9 +48,9 @@ function App() {
     fetch("/logout", {
       method: "DELETE",
     }).then(() => setIsLoggedIn(false));
+    setCurrentUser(null)
   }
 
-   console.log(currentUser)
   
   return (
   <>

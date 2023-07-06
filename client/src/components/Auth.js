@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import {PageContainer, FormContainer,Logo, Label, Input, SubmitButton} from "../styles/auth.styles"
+import { Link } from 'react-router-dom';
 
 function Auth({onLogin}){
     const [username, setUsername] = useState('')
@@ -20,7 +21,9 @@ function Auth({onLogin}){
         })
         .then(res => {
             if(res.ok){
-                res.json().then((user) => onLogin(user))
+                res.json().then((user) => {
+                    onLogin(user)
+                })
             } else {
                 res.json().then(e => setErrors(Object.entries(e.error).flat()))
             }

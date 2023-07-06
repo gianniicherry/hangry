@@ -1,4 +1,5 @@
 class ReviewsController < ApplicationController
+    skip_before_action :authorize, only: :index, :show
     def index
         reviews = Review.all
         render json: reviews
@@ -10,14 +11,14 @@ class ReviewsController < ApplicationController
     end
 
     def create
-        recipe = find_recipe 
-        review = recipe.reviews.create(review_params)
+        recipe = find_recipe
+        review = recipe.reviews.create!(review_params)
         render json: review, status: :created
     end
 
     def update
         review = Review.find_by(id: params[:id])
-        review.update(review_params)
+        review.update!(review_params)
         render json: review
     end
 

@@ -1,4 +1,5 @@
 class RecipesController < ApplicationController
+    skip_before_action :authorize, only: [:index, :show]
 
     def index
         if current_user
@@ -18,13 +19,13 @@ class RecipesController < ApplicationController
     end
 
     def create
-        recipe = Recipe.create(recipe_params)
+        recipe = Recipe.create!(recipe_params)
         render json: recipe, status: :created
     end
 
     def update 
         recipe = Recipe.find_by(id: params[:id])
-        recipe.update(recipe_params)
+        recipe.update!(recipe_params)
         render json: recipe
     end
 
@@ -43,4 +44,6 @@ class RecipesController < ApplicationController
     def logged_in?
         !!session[:user_id]
     end
+
+    
 end

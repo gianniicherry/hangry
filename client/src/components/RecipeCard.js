@@ -9,7 +9,7 @@ function RecipeCard({recipe}){
         <RecipeCardTitle>{recipe.name}</RecipeCardTitle>
         <RecipeCardDescription>Cook Time:{recipe.cook_time} minutes</RecipeCardDescription>
         {/* Additional recipe details */}
-        <Link to={`/recipe/${recipe.id}`}>Full Recipe{console.log(recipe)}</Link>
+        <Link to={`/recipe/${recipe.id}`}>Full Recipe</Link>
       </RecipeCardContainer>
     )
 }
