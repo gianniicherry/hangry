@@ -10,27 +10,40 @@ function ReviewForm({recipeId, onAddReview}){
     const [description, setDescription] = useState('')
     const user = useContext(UserContext)
 
-    function handleSubmit(e){
-        e.preventDefault()
-        const reviewData = {
-            rating: rating,
-            difficulty: difficulty,
-            description: description,
-            recipe_id: recipeId, 
-            user_id: user.id
+    function handleSubmit(e) {
+        e.preventDefault();
+        
+       
+        if (!rating && !difficulty && !description) {
+          return;
         }
-        fetch(`/recipes/${recipeId}/reviews`,{
-            method: "POST",
-            headers: {"Content-Type" : "application/json",
-        },
-            body: JSON.stringify(reviewData)
+      
+        const reviewData = {
+          rating: rating,
+          difficulty: difficulty,
+          description: description,
+          recipe_id: recipeId,
+          user_id: user.id,
+        };
+      
+        fetch(`/recipes/${recipeId}/reviews`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(reviewData),
         })
-            .then(r => r.json())
-            .then((newReview) => onAddReview(newReview))
-            setRating(0)
-            setDifficulty('')
-            setDescription('')
-    }
+          .then((r) => r.json())
+          .then((newReview) => {
+            if (!rating && !difficulty && !description) {
+              return; 
+            }
+            onAddReview(newReview);
+            setRating(0);
+            setDifficulty('');
+            setDescription('');
+          });
+      }
 
 
 
