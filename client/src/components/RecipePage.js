@@ -56,9 +56,34 @@ const RecipePage = () => {
   }
   
   function handleAddReview(newReview){
-    recipe.reviews.push(newReview)
+    setRecipe({
+      ...recipe,
+      reviews: [...recipe.reviews, newReview]
+    })
   }
   
+  function handleUpdateReview(updatedReview) {
+    const updatedReviews = recipe.reviews.map((review) => {
+      if (review.id === updatedReview.id) {
+        return updatedReview;
+      }
+      return review;
+    });
+  
+    setRecipe({
+      ...recipe,
+      reviews: updatedReviews,
+    });
+  }
+
+  function handleDeleteReview(reviewId) {
+    const updatedReviews = recipe.reviews.filter((review) => review.id !== reviewId);
+  
+    setRecipe({
+      ...recipe,
+      reviews: updatedReviews,
+    });
+  }
 
   return (
     <RecipeContainer>
@@ -110,7 +135,7 @@ const RecipePage = () => {
       <ReviewForm recipeId={id} onAddReview={handleAddReview}/>
       </div>
       <br/>{recipe.reviews.map((review)=>(
-          <Reviews key={review.id} review={review} user={user}/>
+          <Reviews key={review.id} review={review} user={user} editReview={handleUpdateReview} deleteReview={handleDeleteReview}/>
       ))}
     </RecipeContainer>
   );

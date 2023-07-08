@@ -18,14 +18,25 @@ class ReviewsController < ApplicationController
 
     def update
         review = Review.find_by(id: params[:id])
-        review.update!(review_params)
-        render json: review
-    end
+        current_user = User.find_by(id: session[:user_id])
+        
+        if current_user && review && current_user.id == review.user_id
+          review.update!(review_params)
+          render json: review
+        else
+          render json: { error: "Not Authorized" }, status: :unauthorized
+        end
+      end
 
     def destroy
         review = Review.find_by(id: params[:id])
+        current_user = User.find_by(id: session[:user_id])
+        if current_user && review && current_user.id == review.user_id
         review.destroy
         head :no_content
+        else
+        render json: {error: "Not Authorized"}, status: :unauthorized
+        end 
     end
 
     private
@@ -35,6 +46,6 @@ class ReviewsController < ApplicationController
     end
 
     def review_params
-        params.require(:review).permit(:rating, :difficulty, :description, :recipe_id, :user_id)
+        params.require(:review).permit(:id, :rating, :difficulty, :description, :recipe_id, :user_id)
     end
 end

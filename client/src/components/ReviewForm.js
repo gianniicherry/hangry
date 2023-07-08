@@ -27,6 +27,9 @@ function ReviewForm({recipeId, onAddReview}){
         })
             .then(r => r.json())
             .then((newReview) => onAddReview(newReview))
+            setRating(0)
+            setDifficulty('')
+            setDescription('')
     }
 
 
