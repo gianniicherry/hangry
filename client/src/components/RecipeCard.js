@@ -1,5 +1,5 @@
 import React from 'react'
-import {RecipeCardContainer, RecipeCardTitle, RecipeCardDescription, RecipeCardButton} from "../styles/recipeCard.styles"
+import {RecipeCardContainer, RecipeCardTitle, RecipeCardDescription} from "../styles/recipeCard.styles"
 import {Link} from 'react-router-dom'
 
 function RecipeCard({recipe}){

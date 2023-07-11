@@ -1,13 +1,14 @@
 import React, {useState} from 'react'
 import {PageContainer, FormContainer,Logo, Label, Input, SubmitButton} from "../styles/auth.styles"
-import { Link } from 'react-router-dom';
+
+
 
 function Auth({onLogin}){
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
-    const [login, setLogin] = useState('')
     const [errors, setErrors] = useState([])
     const [isSigningUp, setIsSigningUp] = useState(false)
+    
 
     function onSubmit(e){
         e.preventDefault()
@@ -25,9 +26,13 @@ function Auth({onLogin}){
             if(res.ok){
                 res.json().then((user) => {
                     onLogin(user)
+                    setUsername('')
+                    setPassword('')
+                    window.location.href = '/'; 
                 })
             } else {
                 res.json().then(e => setErrors(Object.entries(e.error).flat()))
+                console.log(errors)
             }
         })
     }

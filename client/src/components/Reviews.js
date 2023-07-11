@@ -4,14 +4,14 @@ import {Label, Input, StyledButton} from '../styles/reviewForm.styles'
 import StarRating from './StarRating'
 import {UserContext} from "../App"
 
-function Reviews({review, editReview, deleteReview}){
+function Reviews({review, editReview, deleteReview, deleteRatedReview}){
     const [isCurrentUserReview, setIsCurrentUserReview] = useState(false);
     const [editForm, setEditForm] = useState(false)
     const [updatedRating, setUpdatedRating] = useState(0)
     const [updatedDifficulty, setUpdatedDifficulty] = useState('')
     const [updatedDescription, setUpdatedDescription] = useState('')
-    const user = useContext(UserContext)
-
+    const {currentUser, reviewedRecipes, setReviewedRecipes} = useContext(UserContext)
+  
     const renderRatingStars = (rating) => {
         const filledStars = rating;
         const emptyStars = 5 - filledStars;
@@ -30,10 +30,10 @@ function Reviews({review, editReview, deleteReview}){
       };
 
       useEffect(() => {
-        if (user && user.id === review.user_id) {
+        if (currentUser && currentUser.id === review.user_id) {
           setIsCurrentUserReview(true);
         }
-      }, [user, review.user_id]);
+      }, [currentUser, review.user_id]);
 
       function handleDelete() {
         fetch(`/reviews/${review.id}`, {
@@ -42,6 +42,17 @@ function Reviews({review, editReview, deleteReview}){
           .then((response) => {
             if (response.ok) {
               deleteReview(review.id);
+              console.log(reviewedRecipes)
+              console.log(review)
+              const deletedRecipeId = review.recipe.id;
+              const updatedRecipes = reviewedRecipes.recipes.filter(
+              (recipe) => recipe.id !== deletedRecipeId);
+              const updatedReviews = reviewedRecipes.reviews.filter((userReview) => userReview.id !== review.id);
+              setReviewedRecipes({
+              ...reviewedRecipes,
+              recipes: updatedRecipes,
+              reviews: updatedReviews,
+              });
             } else {
               // handle error case
             }

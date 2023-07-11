@@ -6,7 +6,7 @@ import { RecipeContainer, RecipeTitle, RecipeCookTime, RecipeIngredients, Recipe
 import {FormContainer, Label, Input, StyledButton} from '../styles/reviewForm.styles';
 import { UserContext } from "../App"
 
-const RecipePage = () => {
+const RecipePage = ({handleNewUserReview, deleteRatedReview}) => {
   // Retrieve the recipe ID from the URL parameter
   const { id } = useParams();
   const [recipe, setRecipe] = useState(null);
@@ -14,7 +14,7 @@ const RecipePage = () => {
   const [updatedCookTime, setUpdatedCookTime] = useState('');
   const [updatedIngredients, setUpdatedIngredients] = useState('');
   const [updatedInstructions, setUpdatedInstructions] = useState('');
-  const user = useContext(UserContext)
+  const { currentUser} = useContext(UserContext)
   
   useEffect(() => {
     // Fetch the recipe data using the recipe ID
@@ -83,6 +83,7 @@ const RecipePage = () => {
       ...recipe,
       reviews: updatedReviews,
     });
+
   }
 
   return (
@@ -132,10 +133,10 @@ const RecipePage = () => {
       </>)}
       <StyledButton onClick={handleEdit}>{editForm ? "Cancel" : "Edit"}</StyledButton>
       <div>
-      <ReviewForm recipeId={id} onAddReview={handleAddReview}/>
+      <ReviewForm recipeId={id} onAddReview={handleAddReview} handleNewUserReview={handleNewUserReview} recipe={recipe}/>
       </div>
       <br/>{recipe.reviews.map((review)=>(
-          <Reviews key={review.id} review={review} user={user} editReview={handleUpdateReview} deleteReview={handleDeleteReview}/>
+          <Reviews key={review.id} review={review} user={currentUser} editReview={handleUpdateReview} deleteReview={handleDeleteReview} deleteRatedReview={deleteRatedReview}/>
       ))}
     </RecipeContainer>
   );

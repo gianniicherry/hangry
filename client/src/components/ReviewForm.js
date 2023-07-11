@@ -3,12 +3,13 @@ import {FormContainer, Label, Input, StyledButton} from '../styles/reviewForm.st
 import StarRating from './StarRating'
 import {UserContext} from '../App'
 
-function ReviewForm({recipeId, onAddReview}){
+function ReviewForm({recipeId, onAddReview, handleNewUserReview, recipe}){
 
     const [rating, setRating] = useState(0)
     const [difficulty, setDifficulty] = useState('')
     const [description, setDescription] = useState('')
-    const user = useContext(UserContext)
+    const { currentUser, setReviewedRecipes, reviewedRecipes } = useContext(UserContext);
+    
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -17,13 +18,13 @@ function ReviewForm({recipeId, onAddReview}){
         if (!rating && !difficulty && !description) {
           return;
         }
-      
+        
         const reviewData = {
           rating: rating,
           difficulty: difficulty,
           description: description,
           recipe_id: recipeId,
-          user_id: user.id,
+          user_id: currentUser.id,
         };
       
         fetch(`/recipes/${recipeId}/reviews`, {
@@ -39,9 +40,13 @@ function ReviewForm({recipeId, onAddReview}){
               return; 
             }
             onAddReview(newReview);
+            const updatedRecipes = [...currentUser.recipes, recipe];
+            const updatedReviews = [...currentUser.reviews, newReview];
+            setReviewedRecipes({...currentUser, recipes: updatedRecipes, reviews: updatedReviews })
             setRating(0);
             setDifficulty('');
             setDescription('');
+            console.log(reviewedRecipes)
           });
       }
 

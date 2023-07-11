@@ -23,7 +23,7 @@ function StarRating({ onChange }) {
       {[1, 2, 3, 4, 5].map((star) => (
         <Star
           key={star}
-          filled={star <= rating}
+          filled={star <= rating ? "true" : undefined}
           onClick={() => handleStarClick(star)}
         >
           ★

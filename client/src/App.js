@@ -1,5 +1,5 @@
 import './App.css';
-import React, {useState, useEffect, useContext, createContext} from 'react'
+import React, {useState, useEffect, createContext} from 'react'
 import Home from "./components/Home";
 import Recipes from "./components/Recipes";
 import RecipeForm from './components/RecipeForm';
@@ -15,9 +15,14 @@ export const UserContext = createContext();
 function App() {
 
   const [recipes, setRecipes] = useState([])
-  const [easyRecipes, setEasyRecipes] = useState([])
   const [currentUser, setCurrentUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [reviewedRecipes, setReviewedRecipes] = useState({
+    username: '',
+    reviews: [],
+    recipes: [],
+  });
+
 
   useEffect(()=>{
       fetch('/recipes')
@@ -33,6 +38,7 @@ function App() {
         response.json().then((user) => {
           setCurrentUser(user)
           setIsLoggedIn(true)
+          setReviewedRecipes(user)
         });
       }
     });
@@ -55,19 +61,37 @@ function App() {
     setCurrentUser(null)
   }
 
+  const deleteRatedReview = (review) => {
+    const deletedRecipeId = review.recipe.id;
+  
+    const updatedRecipes = reviewedRecipes.recipes.filter(
+      (recipe) => recipe.id !== deletedRecipeId
+    );
+  
+    const updatedReviews = reviewedRecipes.reviews.filter(
+      (userReview) => userReview.id !== review.id
+    );
+  
+    setReviewedRecipes({
+      ...reviewedRecipes,
+      recipes: updatedRecipes,
+      reviews: updatedReviews,
+    });
+  };
+
   
   return (
   <>
   <Navbar isLoggedIn={isLoggedIn}/>
     <div className="container">
-    <UserContext.Provider value={currentUser}>
+    <UserContext.Provider value={{ currentUser, reviewedRecipes, setReviewedRecipes, setCurrentUser }}>
       <Routes>
-          <Route path="/" element={<Home recipes={recipes} easyRecipes={easyRecipes}/>}/>
+          <Route path="/" element={<Home recipes={recipes}/>}/>
           <Route path="/auth" element={<Auth onLogin={handleLogin}/>}/>
           <Route path="/signout" element={<SignOut onLogout={handleLogout}/>}/>
           <Route path="/recipes" element={<Recipes recipes={recipes}/>}/>
           <Route path="/recipeform" element={<RecipeForm onAddRecipe={handleAddRecipe}/>}/>
-          <Route path="/recipe/:id" element={<RecipePage recipe={recipes} />}/>
+          <Route path="/recipe/:id" element={<RecipePage recipe={recipes} deleteRatedReview={deleteRatedReview} />}/>
           <Route path="/reviewedrecipes" element={<ReviewedRecipes user={currentUser}/>}/>
       </Routes>
     </UserContext.Provider>
