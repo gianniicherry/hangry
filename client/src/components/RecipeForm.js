@@ -1,5 +1,6 @@
-import React, {useState} from 'react'
+import React, {useState, useContext} from 'react'
 import {FormContainer, Label, Input, StyledButton} from '../styles/recipeForm.styles'
+import {UserContext} from "../App"
 
 function RecipeForm({onAddRecipe}){
 
@@ -9,6 +10,8 @@ function RecipeForm({onAddRecipe}){
     const [ingredients, setIngredients] = useState("")
     const [instructions, setInstructions] = useState("")
     const [invalidForm, setInvalidForm] = useState(false)
+    const [errorMessage, setErrorMessage] = useState("")
+    const { currentUser } = useContext(UserContext);
     
 
     function handleSubmit(e){
@@ -37,7 +40,13 @@ function RecipeForm({onAddRecipe}){
                 setIngredients('')
                 setInstructions('')
             } else {
+                if (!currentUser) {
+                    setInvalidForm(true)
+                    setErrorMessage("need to be signed in!")
+                } else {
                 setInvalidForm(true)
+                setErrorMessage("Form cannot be blank!")
+                }
             }}
                 )
     }
@@ -100,7 +109,7 @@ function RecipeForm({onAddRecipe}){
             <br />
             <StyledButton type="submit">Submit</StyledButton>
         </form>
-        {invalidForm ? <p>Form cannot be blank</p> : ""}
+        {invalidForm ? <p>{errorMessage}</p> : ""}
     </FormContainer>
     </div>
     )

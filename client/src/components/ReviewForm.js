@@ -10,10 +10,12 @@ function ReviewForm({recipeId, onAddReview, handleNewUserReview, recipe}){
     const [description, setDescription] = useState('')
     const { currentUser, setReviewedRecipes } = useContext(UserContext);
     const [invalidForm, setInvalidForm] = useState(false)
+    const [errorMessage, setErrorMessage] = useState("")
     
 
     function handleSubmit(e) {
         e.preventDefault();
+      if(currentUser) {
         const reviewData = {
           rating: rating,
           difficulty: difficulty,
@@ -42,9 +44,13 @@ function ReviewForm({recipeId, onAddReview, handleNewUserReview, recipe}){
               })
           } else {
             setInvalidForm(true)
+            setErrorMessage("Form cannot be blank!")
           }
     })
-  }
+      }else {
+        setInvalidForm(true)
+        setErrorMessage("need to be signed in!")
+      }}
 
 
 
@@ -77,7 +83,7 @@ function ReviewForm({recipeId, onAddReview, handleNewUserReview, recipe}){
             <StyledButton type="submit">Submit</StyledButton>
         </form>
         <div>
-        {invalidForm ? <p>Form cannot be blank!</p> : ""}
+        {invalidForm ? <p>{errorMessage}</p> : ""}
       </div>
     </FormContainer>
 
