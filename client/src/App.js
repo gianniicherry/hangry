@@ -17,11 +17,7 @@ function App() {
   const [recipes, setRecipes] = useState([])
   const [currentUser, setCurrentUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false)
-  const [reviewedRecipes, setReviewedRecipes] = useState({
-    username: '',
-    reviews: [],
-    recipes: [],
-  });
+  const [reviewedRecipes, setReviewedRecipes] = useState([]);
 
 
   useEffect(()=>{
@@ -62,10 +58,9 @@ function App() {
   }
 
   const deleteRatedReview = (review) => {
-    const deletedRecipeId = review.recipe.id;
-  
+    console.log(review)
     const updatedRecipes = reviewedRecipes.recipes.filter(
-      (recipe) => recipe.id !== deletedRecipeId
+      (recipe) => recipe.id !== review.recipe_id
     );
   
     const updatedReviews = reviewedRecipes.reviews.filter(
@@ -75,7 +70,7 @@ function App() {
     setReviewedRecipes({
       ...reviewedRecipes,
       recipes: updatedRecipes,
-      reviews: updatedReviews,
+      reviews: updatedReviews
     });
   };
 

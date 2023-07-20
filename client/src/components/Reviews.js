@@ -10,8 +10,8 @@ function Reviews({review, editReview, deleteReview, deleteRatedReview}){
     const [updatedRating, setUpdatedRating] = useState(0)
     const [updatedDifficulty, setUpdatedDifficulty] = useState('')
     const [updatedDescription, setUpdatedDescription] = useState('')
-    const {currentUser, reviewedRecipes, setReviewedRecipes} = useContext(UserContext)
-  
+    const {currentUser} = useContext(UserContext)
+    
     const renderRatingStars = (rating) => {
         const filledStars = rating;
         const emptyStars = 5 - filledStars;
@@ -42,17 +42,7 @@ function Reviews({review, editReview, deleteReview, deleteRatedReview}){
           .then((response) => {
             if (response.ok) {
               deleteReview(review.id);
-              console.log(reviewedRecipes)
-              console.log(review)
-              const deletedRecipeId = review.recipe.id;
-              const updatedRecipes = reviewedRecipes.recipes.filter(
-              (recipe) => recipe.id !== deletedRecipeId);
-              const updatedReviews = reviewedRecipes.reviews.filter((userReview) => userReview.id !== review.id);
-              setReviewedRecipes({
-              ...reviewedRecipes,
-              recipes: updatedRecipes,
-              reviews: updatedReviews,
-              });
+              deleteRatedReview(review)
             } else {
               // handle error case
             }
@@ -86,6 +76,7 @@ function Reviews({review, editReview, deleteReview, deleteRatedReview}){
         .then((data)=> {
           editReview(data)
           setEditForm(false)
+          console.log(currentUser)
         })
       }
 

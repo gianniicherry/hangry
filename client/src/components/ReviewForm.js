@@ -8,17 +8,12 @@ function ReviewForm({recipeId, onAddReview, handleNewUserReview, recipe}){
     const [rating, setRating] = useState(0)
     const [difficulty, setDifficulty] = useState('')
     const [description, setDescription] = useState('')
-    const { currentUser, setReviewedRecipes, reviewedRecipes } = useContext(UserContext);
+    const { currentUser, setReviewedRecipes } = useContext(UserContext);
+    const [invalidForm, setInvalidForm] = useState(false)
     
 
     function handleSubmit(e) {
         e.preventDefault();
-        
-       
-        if (!rating && !difficulty && !description) {
-          return;
-        }
-        
         const reviewData = {
           rating: rating,
           difficulty: difficulty,
@@ -34,21 +29,22 @@ function ReviewForm({recipeId, onAddReview, handleNewUserReview, recipe}){
           },
           body: JSON.stringify(reviewData),
         })
-          .then((r) => r.json())
-          .then((newReview) => {
-            if (!rating && !difficulty && !description) {
-              return; 
-            }
-            onAddReview(newReview);
-            const updatedRecipes = [...currentUser.recipes, recipe];
-            const updatedReviews = [...currentUser.reviews, newReview];
-            setReviewedRecipes({...currentUser, recipes: updatedRecipes, reviews: updatedReviews })
-            setRating(0);
-            setDifficulty('');
-            setDescription('');
-            console.log(reviewedRecipes)
-          });
-      }
+        .then((r) => {
+          if (r.ok) {
+            r.json().then((newReview) => {onAddReview(newReview);
+              const updatedRecipes = [...currentUser.recipes, recipe];
+              const updatedReviews = [...currentUser.reviews, newReview];
+              setReviewedRecipes({...currentUser, recipes: updatedRecipes, reviews: updatedReviews })
+              setInvalidForm(false)
+              setRating(0);
+              setDifficulty('');
+              setDescription('');
+              })
+          } else {
+            setInvalidForm(true)
+          }
+    })
+  }
 
 
 
@@ -80,9 +76,13 @@ function ReviewForm({recipeId, onAddReview, handleNewUserReview, recipe}){
             </Label>
             <StyledButton type="submit">Submit</StyledButton>
         </form>
+        <div>
+        {invalidForm ? <p>Form cannot be blank!</p> : ""}
+      </div>
     </FormContainer>
+
     </div>
     )
 }
 
-export default ReviewForm
+export default ReviewForm;

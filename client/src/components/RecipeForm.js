@@ -8,6 +8,7 @@ function RecipeForm({onAddRecipe}){
     const [cookTime, setCookTime] = useState("")
     const [ingredients, setIngredients] = useState("")
     const [instructions, setInstructions] = useState("")
+    const [invalidForm, setInvalidForm] = useState(false)
     
 
     function handleSubmit(e){
@@ -25,8 +26,20 @@ function RecipeForm({onAddRecipe}){
         },
             body: JSON.stringify(recipeData)
         })
-            .then(r => r.json())
-            .then((newRecipe) => onAddRecipe(newRecipe))
+
+            .then(r => {
+            if (r.ok) { 
+                r.json().then((newRecipe) => onAddRecipe(newRecipe))
+                setInvalidForm(false)
+                setName('')
+                setImage('')
+                setCookTime('')
+                setIngredients('')
+                setInstructions('')
+            } else {
+                setInvalidForm(true)
+            }}
+                )
     }
 
 
@@ -87,6 +100,7 @@ function RecipeForm({onAddRecipe}){
             <br />
             <StyledButton type="submit">Submit</StyledButton>
         </form>
+        {invalidForm ? <p>Form cannot be blank</p> : ""}
     </FormContainer>
     </div>
     )
